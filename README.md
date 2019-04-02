@@ -1,6 +1,6 @@
 # Code Experiment
 
-:seedling: This experiment is not ready yet! Comeback later.
+:seedling: **This experiment is not ready yet! Come back later.**
 
 This project is for STAT-441 Exprimental Design at
 Montana State University - Bozeman during Spring 2019
