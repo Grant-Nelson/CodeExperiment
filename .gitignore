@@ -4,12 +4,21 @@
 *.dll
 *.so
 *.dylib
+*.log
+*.zip
+*.tar.gz
 
-# Test binary, built with `go test -c`
+# Go
 *.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Java
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.rar
 
 # OS files
 .DS_Store

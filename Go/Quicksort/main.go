@@ -11,10 +11,10 @@ import (
 
 const (
 	// inputFile is the file to input with random values from.
-	inputFile = "../../randomFile.txt"
+	inputFile = `..\..\randomFile.txt`
 
 	// outputFile is the file to output the sorted values to.
-	outputFile = "../../sortedFile.txt"
+	outputFile = `..\..\sortedFile.txt`
 )
 
 // main is the entry point for a quicksort in Go.

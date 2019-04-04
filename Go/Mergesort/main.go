@@ -11,10 +11,10 @@ import (
 
 const (
 	// inputFile is the file to input with random values from.
-	inputFile = "../../randomFile.txt"
+	inputFile = `..\..\randomFile.txt`
 
 	// outputFile is the file to output the sorted values to.
-	outputFile = "../../sortedFile.txt"
+	outputFile = `..\..\sortedFile.txt`
 )
 
 // main is the entry point for a merge sort in Go.
@@ -80,9 +80,7 @@ func split(b, a []int, start, stop int) {
 // merge performs a top down merge where it zippers together two parts from `a` into `b`.
 // start is inclusive and stop is exclusive.
 func merge(a, b []int, start, mid, stop int) {
-	i := start
-	j := mid
-	for k := start; k < stop; k++ {
+	for i, j, k := start, mid, start; k < stop; k++ {
 		if (i < mid) && ((j >= stop) || (a[i] <= a[j])) {
 			b[k] = a[i]
 			i++

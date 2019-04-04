@@ -11,10 +11,10 @@ import (
 
 const (
 	// inputFile is the file to input with random values from.
-	inputFile = "../../randomFile.txt"
+	inputFile = `..\..\randomFile.txt`
 
 	// outputFile is the file to output the sorted values to.
-	outputFile = "../../sortedFile.txt"
+	outputFile = `..\..\sortedFile.txt`
 )
 
 // node is the binary tree node.
@@ -32,25 +32,24 @@ type node struct {
 
 // main is the entry point for a binary tree sort in Go.
 func main() {
-	randomData := readFile()
-	length := len(randomData)
+	data := readFile()
+	length := len(data)
 	if length <= 0 {
 		panic(errors.New("Failed to read a file"))
 	}
 
 	root := &node{
-		value: randomData[0],
+		value: data[0],
 		left:  nil,
 		right: nil,
 	}
 	for i := 1; i < length; i++ {
-		insertValue(randomData[i], root)
+		insertValue(data[i], root)
 	}
 
-	sortedData := make([]int, length)
-	outputValues(0, root, sortedData)
+	outputValues(0, root, data)
 
-	writeFile(sortedData)
+	writeFile(data)
 	os.Exit(0)
 }
 
@@ -86,7 +85,7 @@ func readFile() []int {
 
 // insertValue inserts a value into the tree recursively.
 func insertValue(value int, n *node) {
-	if n.value < value {
+	if n.value > value {
 		if n.left != nil {
 			insertValue(value, n.left)
 		} else {
@@ -110,16 +109,16 @@ func insertValue(value int, n *node) {
 }
 
 // outputValues recursively gets all the values from the binary tree.
-func outputValues(index int, n *node, sortedData []int) int {
+func outputValues(index int, n *node, data []int) int {
 	if n.left != nil {
-		index = outputValues(index, n.left, sortedData)
+		index = outputValues(index, n.left, data)
 	}
 
-	sortedData[index] = n.value
+	data[index] = n.value
 	index++
 
 	if n.right != nil {
-		index = outputValues(index, n.right, sortedData)
+		index = outputValues(index, n.right, data)
 	}
 	return index
 }
