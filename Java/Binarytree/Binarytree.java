@@ -70,7 +70,7 @@ public class Binarytree {
      * @throws Exception
      */
     private static int[] readFile() throws Exception {
-        ArrayList<Integer> values = new ArrayList<Integer>();
+        ArrayList<Integer> values = new ArrayList<Integer>(100000);
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         String line = reader.readLine();
         while (line != null) {

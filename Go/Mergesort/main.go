@@ -41,7 +41,7 @@ func readFile() []int {
 	}
 	defer file.Close()
 
-	randomData := []int{}
+	randomData := make([]int, 0, 100000)
 	reader := bufio.NewReader(file)
 	for {
 		data, _, err := reader.ReadLine()

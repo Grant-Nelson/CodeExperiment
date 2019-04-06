@@ -30,6 +30,15 @@ type node struct {
 	right *node
 }
 
+// newNode creates a new binary tree node.
+func newNode(value int) *node {
+	return &node{
+		value: value,
+		left:  nil,
+		right: nil,
+	}
+}
+
 // main is the entry point for a binary tree sort in Go.
 func main() {
 	data := readFile()
@@ -38,11 +47,7 @@ func main() {
 		panic(errors.New("Failed to read a file"))
 	}
 
-	root := &node{
-		value: data[0],
-		left:  nil,
-		right: nil,
-	}
+	root := newNode(data[0])
 	for i := 1; i < length; i++ {
 		insertValue(data[i], root)
 	}
@@ -61,7 +66,7 @@ func readFile() []int {
 	}
 	defer file.Close()
 
-	randomData := []int{}
+	randomData := make([]int, 0, 100000)
 	reader := bufio.NewReader(file)
 	for {
 		data, _, err := reader.ReadLine()
@@ -89,21 +94,13 @@ func insertValue(value int, n *node) {
 		if n.left != nil {
 			insertValue(value, n.left)
 		} else {
-			n.left = &node{
-				value: value,
-				left:  nil,
-				right: nil,
-			}
+			n.left = newNode(value)
 		}
 	} else {
 		if n.right != nil {
 			insertValue(value, n.right)
 		} else {
-			n.right = &node{
-				value: value,
-				left:  nil,
-				right: nil,
-			}
+			n.right = newNode(value)
 		}
 	}
 }

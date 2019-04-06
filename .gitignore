@@ -20,9 +20,10 @@
 *.ear
 *.rar
 
-# OS files
+# Enviroment files
 .DS_Store
 thumbs.db
+.vscode
 
 # Experiment test files
 randomFile.txt
