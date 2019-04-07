@@ -45,6 +45,8 @@ var applications = [][]string{
 	{`Java-Mergesort`, path.Join(`Java`, `Mergesort`), `java`, `Mergesort`},
 	{`Java-Quicksort`, path.Join(`Java`, `Quicksort`), `java`, `Quicksort`},
 	{`Python-Binarytree`, path.Join(`Python`, `Binarytree`), `python`, `main.py`},
+	{`Python-Mergesort`, path.Join(`Python`, `Mergesort`), `python`, `main.py`},
+	{`Python-Quicksort`, path.Join(`Python`, `Quicksort`), `python`, `main.py`},
 }
 
 // main is the entry point for the experiment.

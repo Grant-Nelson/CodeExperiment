@@ -1,28 +1,32 @@
 import os.path
 
-# This is the file to input with random values from.
 inputFile = os.path.join("..", "..", "randomFile.txt")
+""" This is the file to input with random values from. """
 
-# This is the file to output the sorted values to.
 outputFile = os.path.join("..", "..", "sortedFile.txt")
+""" This is the file to output the sorted values to. """
 
-# This is the binary tree node.
+
 class Node:
+    """ This is the binary tree node. """
+
     def __init__(self, value, left, right):
         self.value = value
         self.left = left
         self.right = right
 
-# This reads all the values from the input file.
+
 def readFile():
+    """ This reads all the values from the input file. """
     data = []
     f = open(inputFile, "r")
     for line in f:
         data.append(int(line))
     return data
 
-# This inserts a value into the tree recursively.
+
 def insertValue(value, n):
+    """ This inserts a value into the tree recursively. """
     if n.value > value:
         if n.left is None:
             n.left = Node(value, None, None)
@@ -34,8 +38,9 @@ def insertValue(value, n):
         else:
             insertValue(value, n.right)
 
-# This recursively gets all the values from the binary tree.
+
 def outputValues(index, n, data):
+    """ This recursively gets all the values from the binary tree. """
     if n.left is not None:
         index = outputValues(index, n.left, data)
 
@@ -46,12 +51,14 @@ def outputValues(index, n, data):
         index = outputValues(index, n.right, data)
     return index
 
-# This writes the values to the output file.
+
 def writeFile(data):
+    """ This writes the values to the output file. """
     f = open(outputFile, "w")
     for value in data:
         f.write("{}\n".format(value))
     f.close()
+
 
 data = readFile()
 
