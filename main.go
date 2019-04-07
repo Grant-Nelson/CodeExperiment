@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
+	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -21,13 +22,13 @@ const (
 	fileLength = 100000
 
 	// randomFile is the file to generate and input into each application.
-	randomFile = `.\randomFile.txt`
+	randomFile = `randomFile.txt`
 
 	// sortedFile is the file location that the application outputs.
-	sortedFile = `.\sortedFile.txt`
+	sortedFile = `sortedFile.txt`
 
 	// resultFile is the result file to write the duration of the application to.
-	resultFile = `.\results.txt`
+	resultFile = `results.txt`
 
 	// resultPrecision is the precision for the result values.
 	resultPrecision = 5
@@ -37,12 +38,13 @@ const (
 // The result file will be written in the order of this list.
 var applications = [][]string{
 	// Name, Path, Executable, Args...
-	{`Go-Binarytree`, `.\Go\Binarytree\`, `.\Binarytree.exe`},
-	{`Go-Mergesort`, `.\Go\Mergesort\`, `.\Mergesort.exe`},
-	{`Go-Quicksort`, `.\Go\QuickSort\`, `.\QuickSort.exe`},
-	{`Java-Binarytree`, `.\Java\Binarytree`, `java`, `Binarytree`},
-	{`Java-Mergesort`, `.\Java\Mergesort`, `java`, `Mergesort`},
-	{`Java-Quicksort`, `.\Java\Quicksort`, `java`, `Quicksort`},
+	{`Go-Binarytree`, path.Join(`Go`, `Binarytree`), `.\Binarytree.exe`},
+	{`Go-Mergesort`, path.Join(`Go`, `Mergesort`), `.\Mergesort.exe`},
+	{`Go-Quicksort`, path.Join(`Go`, `QuickSort`), `.\QuickSort.exe`},
+	{`Java-Binarytree`, path.Join(`Java`, `Binarytree`), `java`, `Binarytree`},
+	{`Java-Mergesort`, path.Join(`Java`, `Mergesort`), `java`, `Mergesort`},
+	{`Java-Quicksort`, path.Join(`Java`, `Quicksort`), `java`, `Quicksort`},
+	{`Python-Binarytree`, path.Join(`Python`, `Binarytree`), `python`, `main.py`},
 }
 
 // main is the entry point for the experiment.

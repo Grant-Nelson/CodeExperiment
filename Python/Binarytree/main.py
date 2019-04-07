@@ -1,13 +1,17 @@
+import os.path
+
 # This is the file to input with random values from.
-inputFile = "..\\..\\randomFile.txt"
+inputFile = os.path.join("..", "..", "randomFile.txt")
 
 # This is the file to output the sorted values to.
-outputFile = "..\\..\\sortedFile.txt"
+outputFile = os.path.join("..", "..", "sortedFile.txt")
 
 # This is the binary tree node.
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, left, right):
         self.value = value
+        self.left = left
+        self.right = right
 
 # This reads all the values from the input file.
 def readFile():
@@ -21,12 +25,12 @@ def readFile():
 def insertValue(value, n):
     if n.value > value:
         if n.left is None:
-            n.left = Node(value)
+            n.left = Node(value, None, None)
         else:
             insertValue(value, n.left)
     else:
         if n.right is None:
-            n.right = Node(value)
+            n.right = Node(value, None, None)
         else:
             insertValue(value, n.right)
 
@@ -42,5 +46,20 @@ def outputValues(index, n, data):
         index = outputValues(index, n.right, data)
     return index
 
+# This writes the values to the output file.
+def writeFile(data):
+    f = open(outputFile, "w")
+    for value in data:
+        f.write("{}\n".format(value))
+    f.close()
 
 data = readFile()
+
+root = Node(data[0], None, None)
+for value in data[1:]:
+    insertValue(value, root)
+
+outputValues(0, root, data)
+
+writeFile(data)
+exit(0)

@@ -6,15 +6,16 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strconv"
 )
 
-const (
+var (
 	// inputFile is the file to input with random values from.
-	inputFile = `..\..\randomFile.txt`
+	inputFile = path.Join(`..`, `..`, `randomFile.txt`)
 
 	// outputFile is the file to output the sorted values to.
-	outputFile = `..\..\sortedFile.txt`
+	outputFile = path.Join(`..`, `..`, `sortedFile.txt`)
 )
 
 // node is the binary tree node.
@@ -66,7 +67,7 @@ func readFile() []int {
 	}
 	defer file.Close()
 
-	randomData := make([]int, 0, 100000)
+	randomData := []int{}
 	reader := bufio.NewReader(file)
 	for {
 		data, _, err := reader.ReadLine()

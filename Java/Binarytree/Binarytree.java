@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.nio.file.Paths;
 
 /**
  * The Binarytree class reads a file of numbers, binary tree sort the numbers,
@@ -11,10 +12,12 @@ import java.util.ArrayList;
 public class Binarytree {
 
     /** This is the file to input with random values from. */
-    static private final String inputFile = "../../randomFile.txt";
+    static private final String inputFile =
+        Paths.get("..", "..", "randomFile.txt").toString();
 
     /** This is the file to output the sorted values to. */
-    static private final String outputFile = "../../sortedFile.txt";
+    static private final String outputFile =
+        Paths.get("..", "..", "sortedFile.txt").toString();
 
     /** This is the binary tree node. */
     private static class Node {
@@ -70,7 +73,7 @@ public class Binarytree {
      * @throws Exception
      */
     private static int[] readFile() throws Exception {
-        ArrayList<Integer> values = new ArrayList<Integer>(100000);
+        ArrayList<Integer> values = new ArrayList<Integer>();
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         String line = reader.readLine();
         while (line != null) {
