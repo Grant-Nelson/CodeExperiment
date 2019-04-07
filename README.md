@@ -10,13 +10,24 @@ as part of my PhD program.
 
 ## Running Experiment
 
-1. Use the following command to build all of the sort
-   algorithms for all the languages (treatments):
-  - `go run build\build.go`
-  - If you do not wish to build all of the treatments, then first modify
-    [`build.go`](./build/build.go) to indicate which treatments are being built.
-2. Use the following command to collect experimental data:
-  - `go run main.go`
-  - If you do not wish to run all of the tests, then first modify
-    [`main.go`](./main.go) to indicate which tests are being run.
-3. Results are collected in `result.txt`
+1. To change which treatments are built and run, modify
+   the experiments [`main.go`](./experiment/main.go) file.
+2. Build experiment executable: `go build .\experiment\`
+3. Build the treatments: `.\experiment.exe -build`
+4. Run the experiment: `.\experiment.exe -run`
+5. Results are collected in [`results.txt`](./results.txt).
+
+## Installing the Languages
+
+This code was originally written for Windows 10 with
+[Visual Studio Code](https://code.visualstudio.com/).
+
+Many of the treatments and the experiment executable
+should work on MacOS and Linux too but they have
+only been tested on Windows.
+
+### Install Instructions
+
+- [Go](https://golang.org/doc/install)
+- [Java](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Python](https://www.python.org/downloads/)
