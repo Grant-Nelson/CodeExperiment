@@ -18,8 +18,10 @@ func runExperiment() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	// Number all the selected treatments.
+	names := make([]string, len(treatments))
 	for i, trmt := range treatments {
 		trmt.index = i
+		names[i] = trmt.name
 	}
 
 	// Create the results output file.
@@ -28,6 +30,7 @@ func runExperiment() {
 		panic(err)
 	}
 	defer resultF.Close()
+	resultF.WriteString(strings.Join(names, resultSeparators) + "\n")
 
 	// Run all the repetitions of the experiment.
 	for i := 1; i <= repetitions; i++ {
@@ -49,7 +52,7 @@ func runReplicate(resultF *os.File) {
 		results[trmt.index] = fmt.Sprintf("%.*f", resultPrecision, secs)
 	}
 
-	resultF.WriteString(strings.Join(results, " ") + "\n")
+	resultF.WriteString(strings.Join(results, resultSeparators) + "\n")
 	resultF.Sync()
 }
 

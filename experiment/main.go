@@ -24,6 +24,9 @@ const (
 
 	// resultPrecision is the precision for the result values.
 	resultPrecision = 5
+
+	// resultSeparators is the characters to put between results.
+	resultSeparators = `, `
 )
 
 // treatments is the list of all sort algorithms and languages.
@@ -32,19 +35,19 @@ var treatments = []*treatment{
 
 	goTreatment(`Binarytree`),
 	goTreatment(`Mergesort`),
-	goTreatment(`QuickSort`),
+	goTreatment(`Quicksort`),
 
 	javaTreatment(`Binarytree`),
 	javaTreatment(`Mergesort`),
-	javaTreatment(`QuickSort`),
+	javaTreatment(`Quicksort`),
 
 	pythonTreatment(`Binarytree`),
 	pythonTreatment(`Mergesort`),
-	pythonTreatment(`QuickSort`),
+	pythonTreatment(`Quicksort`),
 
 	cSharpTreatment(`Binarytree`),
 	cSharpTreatment(`Mergesort`),
-	cSharpTreatment(`QuickSort`),
+	cSharpTreatment(`Quicksort`),
 }
 
 // main is the entry point for the experiment.
