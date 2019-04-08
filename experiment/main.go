@@ -36,18 +36,22 @@ var treatments = []*treatment{
 	goTreatment(`Binarytree`),
 	goTreatment(`Mergesort`),
 	goTreatment(`Quicksort`),
+	goTreatment(`Core`),
 
 	javaTreatment(`Binarytree`),
 	javaTreatment(`Mergesort`),
 	javaTreatment(`Quicksort`),
+	javaTreatment(`Core`),
 
 	pythonTreatment(`Binarytree`),
 	pythonTreatment(`Mergesort`),
 	pythonTreatment(`Quicksort`),
+	pythonTreatment(`Core`),
 
 	cSharpTreatment(`Binarytree`),
 	cSharpTreatment(`Mergesort`),
 	cSharpTreatment(`Quicksort`),
+	cSharpTreatment(`Core`),
 }
 
 // main is the entry point for the experiment.

@@ -20,7 +20,7 @@ public class Mergesort {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a quicksort in Go.
+     * This is the entry point for a merge sort in Go.
      * 
      * @param args not used.
      */
