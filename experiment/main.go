@@ -42,7 +42,9 @@ var treatments = []*treatment{
 	pythonTreatment(`Mergesort`),
 	pythonTreatment(`QuickSort`),
 
-	//cSharpTreatment(`Binarytree`),
+	cSharpTreatment(`Binarytree`),
+	cSharpTreatment(`Mergesort`),
+	cSharpTreatment(`QuickSort`),
 }
 
 // main is the entry point for the experiment.

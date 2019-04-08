@@ -29,7 +29,7 @@ public class Mergesort {
             int[] randomData = readFile();
             int length = randomData.length;
             if (length <= 0)
-                throw new Exception("Failed to read a file");
+                throw new Exception("Failed to read input file");
             
             int[] sortedData = randomData.clone();
             split(randomData, sortedData, 0, length);
@@ -71,27 +71,15 @@ public class Mergesort {
      * @param a     The source array for merging from.
      * @param b     The copy of the array for merging to.
      * @param start The inclusive index to start merging at.
-     * @param stop  The inclusive index to stop merging at.
+     * @param stop  The exclusive index to stop merging at.
      */
     private static void split(int[] a, int[] b, int start, int stop) {
         if (stop-start < 2) return;
+        
         int mid = (stop + start) / 2;
         split(b, a, start, mid);
         split(b, a, mid, stop);
-        merge(a, b, start, mid, stop);
-    }
 
-    /**
-     * merge performs a top down merge where it zippers together
-     * two parts from `a` into `b`.
-     * 
-     * @param a     The source array for merging from.
-     * @param b     The copy of the array for merging to.
-     * @param start The inclusive index to start merging at.
-     * @param mid   The index halfway between the start and stop.
-     * @param stop  The inclusive index to stop merging at.
-     */    
-    private static void merge(int[] a, int[] b, int start, int mid, int stop) {
         for (int i = start, j = mid, k = start; k < stop; k++) {
             if ((i < mid) && ((j >= stop) || (a[i] <= a[j]))) {
                 b[k] = a[i];

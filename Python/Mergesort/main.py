@@ -16,21 +16,17 @@ def readFile():
     return data
 
 
-def split(b, a, start, stop):
+def split(a, b, start, stop):
     """ This performs a top down merge sort by splitting the
     current level into 2 parts to sort, then merging the two parts.
     start is inclusive and stop is exclusive. """
     if stop-start < 2:
         return
+
     mid = int((stop + start)/2)
-    split(a, b, start, mid)
-    split(a, b, mid, stop)
-    merge(b, a, start, mid, stop)
+    split(b, a, start, mid)
+    split(b, a, mid, stop)
 
-
-def merge(a, b, start, mid, stop):
-    """ This performs a top down merge where it zippers together two
-    parts from `a` into `b`. start is inclusive and stop is exclusive. """
     i = start
     j = mid
     for k in range(start, stop):

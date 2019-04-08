@@ -23,7 +23,7 @@ func main() {
 	data := readFile()
 	length := len(data)
 	if length <= 0 {
-		panic(errors.New("Failed to read a file"))
+		panic(errors.New("Failed to read input file"))
 	}
 
 	quicksort(data, 0, length-1)
@@ -64,24 +64,18 @@ func readFile() []int {
 // quicksort performs a quick sort in the low inclusive and high inclusive range.
 func quicksort(data []int, low, high int) {
 	if low < high {
-		p := partition(data, low, high)
+		p := low
+		for j, pivot := low, data[high]; j < high; j++ {
+			if data[j] < pivot {
+				data[p], data[j] = data[j], data[p]
+				p++
+			}
+		}
+		data[p], data[high] = data[high], data[p]
+
 		quicksort(data, low, p-1)
 		quicksort(data, p+1, high)
 	}
-}
-
-// partition shifts values lower than a pivot and returns the pivot index.
-func partition(data []int, low, high int) int {
-	pivot := data[high]
-	i := low
-	for j := low; j < high; j++ {
-		if data[j] < pivot {
-			data[i], data[j] = data[j], data[i]
-			i++
-		}
-	}
-	data[i], data[high] = data[high], data[i]
-	return i
 }
 
 // writeFile writes the values to the output file.

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.nio.file.Paths;
 
 /**
- * The Quicksort class reads a file of numbers, quick sorts the numbers,
+ * The QuickSort class reads a file of numbers, quick sorts the numbers,
  * then writes the sorted numbers to another file.
  */
-public class Quicksort {
+public class QuickSort {
 
     /** This is the file to input with random values from. */
     static private final String inputFile =
@@ -29,7 +29,7 @@ public class Quicksort {
             int[] data = readFile();
             int length = data.length;
             if (length <= 0)
-                throw new Exception("Failed to read a file");
+                throw new Exception("Failed to read input file");
 
             quicksort(data, 0, length - 1);
             
@@ -72,35 +72,22 @@ public class Quicksort {
      */
     private static void quicksort(int[] data, int low, int high) {
         if (low < high) {
-            int p = partition(data, low, high);
+            int p = low;
+            for (int j = low, pivot = data[high]; j < high; j++) {
+                if (data[j] < pivot) {
+                    int temp = data[p];
+                    data[p] = data[j];
+                    data[j] = temp;
+                    p++;
+                }
+            }
+            int temp = data[p];
+            data[p] = data[high];
+            data[high] = temp;
+
             quicksort(data, low, p - 1);
             quicksort(data, p + 1, high);
         }
-    }
-
-    /**
-     * This shifts values lower than a pivot and returns the pivot index.
-     * 
-     * @param data The data being quick sorted.
-     * @param low  The low inclusive index for the range to sort.
-     * @param high The hight inclusive index for the range to sort.
-     * @return The pivot index to perform the next split at.
-     */
-    private static int partition(int[] data, int low, int high) {
-        int pivot = data[high];
-        int i = low;
-        for (int j = low; j < high; j++) {
-            if (data[j] < pivot) {
-                int temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-                i++;
-            }
-        }
-        int temp = data[i];
-        data[i] = data[high];
-        data[high] = temp;
-        return i;
     }
 
     /**

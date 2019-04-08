@@ -45,7 +45,7 @@ func main() {
 	data := readFile()
 	length := len(data)
 	if length <= 0 {
-		panic(errors.New("Failed to read a file"))
+		panic(errors.New("Failed to read input file"))
 	}
 
 	root := newNode(data[0])

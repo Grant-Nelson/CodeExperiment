@@ -23,7 +23,7 @@ func main() {
 	randomData := readFile()
 	length := len(randomData)
 	if length <= 0 {
-		panic(errors.New("Failed to read a file"))
+		panic(errors.New("Failed to read input file"))
 	}
 
 	sortedData := make([]int, length)
@@ -67,20 +67,15 @@ func readFile() []int {
 // split performs a top down merge sort by splitting the
 // current level into 2 parts to sort, then merging the two parts.
 // start is inclusive and stop is exclusive.
-func split(b, a []int, start, stop int) {
+func split(a, b []int, start, stop int) {
 	if stop-start < 2 {
 		return
 	}
 
 	mid := (stop + start) / 2
-	split(a, b, start, mid)
-	split(a, b, mid, stop)
-	merge(b, a, start, mid, stop)
-}
+	split(b, a, start, mid)
+	split(b, a, mid, stop)
 
-// merge performs a top down merge where it zippers together two parts from `a` into `b`.
-// start is inclusive and stop is exclusive.
-func merge(a, b []int, start, mid, stop int) {
 	for i, j, k := start, mid, start; k < stop; k++ {
 		if (i < mid) && ((j >= stop) || (a[i] <= a[j])) {
 			b[k] = a[i]

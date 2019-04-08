@@ -51,7 +51,7 @@ public class Binarytree {
             int[] data = readFile();
             int length = data.length;
             if (length <= 0)
-                throw new Exception("Failed to read a file");
+                throw new Exception("Failed to read input file");
 
             Node root = new Node(data[0]);
             for (int i = 1; i < length; i++)

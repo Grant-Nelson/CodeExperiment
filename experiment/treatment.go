@@ -32,10 +32,11 @@ type treatment struct {
 // cSharpTreatment creates a C# treatment for the given name.
 // This build is designed for Windows, must change for Linux and MacOS.
 func cSharpTreatment(name string) *treatment {
+	cscExe := `C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe`
 	return &treatment{
 		name:     `C#-` + name,
 		path:     path.Join(`Csharp`, name),
-		buildCmd: []string{`C:\Windows\Microsoft.NET\Framework\v3.5\csc.exe`, `/t:exe`, `/out:main.exe`, `main.cs`},
+		buildCmd: []string{cscExe, `/t:exe`, `/out:main.exe`, `main.cs`},
 		runCmd:   []string{fmt.Sprint(`.`, string(os.PathSeparator), `main.exe`)},
 	}
 }
@@ -76,6 +77,8 @@ func (trmt *treatment) build() {
 	if len(trmt.buildCmd) > 0 {
 		cmd := exec.Command(trmt.buildCmd[0], trmt.buildCmd[1:]...)
 		cmd.Dir = trmt.path
+		cmd.Stderr = os.Stderr
+		cmd.Stdout = os.Stdout
 		if err := cmd.Run(); err != nil {
 			panic(fmt.Sprintf("%s failed to build: %v", trmt.name, err))
 		}
@@ -86,7 +89,9 @@ func (trmt *treatment) build() {
 func (trmt *treatment) run() float64 {
 	cmd := exec.Command(trmt.runCmd[0], trmt.runCmd[1:]...)
 	cmd.Dir = trmt.path
-	fmt.Printf("  running %s\n", trmt.name)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+	fmt.Printf("  running %s...", trmt.name)
 
 	start := time.Now()
 	if err := cmd.Run(); err != nil {
@@ -94,6 +99,6 @@ func (trmt *treatment) run() float64 {
 	}
 	dur := time.Since(start)
 
-	fmt.Printf("  finished %s\n", dur.String())
+	fmt.Printf("%s\n", dur.String())
 	return dur.Seconds()
 }

@@ -20,27 +20,21 @@ def quicksort(data, low, high):
     """ This performs a quick sort in the low inclusive
     and high inclusive range. """
     if low < high:
-        p = partition(data, low, high)
+        pivot = data[high]
+        p = low
+        for j in range(low, high):
+            if data[j] < pivot:
+                temp = data[p]
+                data[p] = data[j]
+                data[j] = temp
+                p = p+1
+
+        temp = data[p]
+        data[p] = data[high]
+        data[high] = temp
+
         quicksort(data, low, p-1)
         quicksort(data, p+1, high)
-
-
-def partition(data, low, high):
-    """ This performs a top down merge where it zippers together two
-    parts from `a` into `b`. start is inclusive and stop is exclusive. """
-    pivot = data[high]
-    i = low
-    for j in range(low, high):
-        if data[j] < pivot:
-            temp = data[i]
-            data[i] = data[j]
-            data[j] = temp
-            i = i+1
-
-    temp = data[i]
-    data[i] = data[high]
-    data[high] = temp
-    return i
 
 
 def writeFile(data):
