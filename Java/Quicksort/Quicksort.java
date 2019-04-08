@@ -9,7 +9,7 @@ import java.nio.file.Paths;
  * The QuickSort class reads a file of numbers, quick sorts the numbers,
  * then writes the sorted numbers to another file.
  */
-public class QuickSort {
+public class Quicksort {
 
     /** This is the file to input with random values from. */
     static private final String inputFile =

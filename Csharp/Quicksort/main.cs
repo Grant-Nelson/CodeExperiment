@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace QuickSort
+namespace Quicksort
 {
     /// <summary>
     /// This class reads a file of numbers, quick sorts the numbers,
