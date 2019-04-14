@@ -105,7 +105,7 @@ void writeFile(int *data, int length)
 }
 
 /**
- * This is the entry point for a merge sort in C++.
+ * This is the entry point for a quick sort in C++.
  * 
  * This reads a file of numbers, sorts the numbers with
  * the built-in standard template library's sort algorithm,
