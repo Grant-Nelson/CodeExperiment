@@ -33,25 +33,30 @@ const (
 // The result file will be written in the order of this list.
 var treatments = []*treatment{
 
-	goTreatment(`Binarytree`),
-	goTreatment(`Mergesort`),
-	goTreatment(`Quicksort`),
-	goTreatment(`Core`),
-
-	javaTreatment(`Binarytree`),
-	javaTreatment(`Mergesort`),
-	javaTreatment(`Quicksort`),
-	javaTreatment(`Core`),
-
-	pythonTreatment(`Binarytree`),
-	pythonTreatment(`Mergesort`),
-	pythonTreatment(`Quicksort`),
-	pythonTreatment(`Core`),
-
 	cSharpTreatment(`Binarytree`),
+	cSharpTreatment(`Core`),
 	cSharpTreatment(`Mergesort`),
 	cSharpTreatment(`Quicksort`),
-	cSharpTreatment(`Core`),
+
+	cppTreatment(`Binarytree`),
+	cppTreatment(`Core`),
+	cppTreatment(`Mergesort`),
+	cppTreatment(`Quicksort`),
+
+	goTreatment(`Binarytree`),
+	goTreatment(`Core`),
+	goTreatment(`Mergesort`),
+	goTreatment(`Quicksort`),
+
+	javaTreatment(`Binarytree`),
+	javaTreatment(`Core`),
+	javaTreatment(`Mergesort`),
+	javaTreatment(`Quicksort`),
+
+	pythonTreatment(`Binarytree`),
+	pythonTreatment(`Core`),
+	pythonTreatment(`Mergesort`),
+	pythonTreatment(`Quicksort`),
 }
 
 // main is the entry point for the experiment.
@@ -70,7 +75,7 @@ func main() {
 
 	if build {
 		for _, trmt := range treatments {
-			trmt.build()
+			trmt.Build()
 		}
 	}
 

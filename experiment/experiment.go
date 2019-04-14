@@ -21,7 +21,7 @@ func runExperiment() {
 	names := make([]string, len(treatments))
 	for i, trmt := range treatments {
 		trmt.index = i
-		names[i] = trmt.name
+		names[i] = trmt.String()
 	}
 
 	// Create the results output file.
@@ -34,7 +34,7 @@ func runExperiment() {
 
 	// Run all the repetitions of the experiment.
 	for i := 1; i <= repetitions; i++ {
-		fmt.Printf("replicate %d\n", i)
+		fmt.Printf("replicate %d of %d\n", i, repetitions)
 		runReplicate(resultF)
 	}
 }
@@ -46,8 +46,8 @@ func runReplicate(resultF *os.File) {
 	trmts := randomizeApplicationOrder()
 	results := make([]string, len(trmts))
 	for _, trmt := range trmts {
-		secs := trmt.run()
-		checkOutputFile(trmt.name)
+		secs := trmt.Run()
+		checkOutputFile(trmt)
 		deleteSortedFile()
 		results[trmt.index] = fmt.Sprintf("%.*f", resultPrecision, secs)
 	}
@@ -84,10 +84,10 @@ func randomizeApplicationOrder() []*treatment {
 }
 
 // checkOutputFile checks that the output file has been sorted.
-func checkOutputFile(trmtName string) {
+func checkOutputFile(trmt *treatment) {
 	file, err := os.Open(sortedFile)
 	if err != nil {
-		panic(fmt.Errorf("failed to read sorted output file from %s: %v", trmtName, err))
+		panic(fmt.Errorf("failed to read sorted output file from %s: %v", trmt.String(), err))
 	}
 	defer file.Close()
 
@@ -110,12 +110,12 @@ func checkOutputFile(trmtName string) {
 		}
 
 		if value < previousValue {
-			panic(fmt.Errorf("%s did not properly sort at line %d, %d < %d", trmtName, count, value, previousValue))
+			panic(fmt.Errorf("%s did not properly sort at line %d, %d < %d", trmt.String(), count, value, previousValue))
 		}
 		previousValue = value
 	}
 	if count != fileLength {
-		panic(fmt.Errorf("%s produced a file with only %d values instead of %d", trmtName, count, fileLength))
+		panic(fmt.Errorf("%s produced a file with only %d values instead of %d", trmt.String(), count, fileLength))
 	}
 }
 

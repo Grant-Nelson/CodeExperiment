@@ -28,7 +28,8 @@ only been tested on Windows.
 
 ### Install Instructions
 
-- [C#](https://docs.microsoft.com/en-us/dotnet/framework/install/guide-for-developers)
+- [C#](https://code.visualstudio.com/docs/cpp/config-mingw)
+- [C++](https://code.visualstudio.com/docs/languages/cpp)
 - [Go](https://golang.org/doc/install)
 - [Java](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Python](https://www.python.org/downloads/)

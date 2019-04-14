@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Quicksort
+namespace Core
 {
     /// <summary>
-    /// This class reads a file of numbers, quick sorts the numbers,
-    /// then writes the sorted numbers to another file.
+    /// This class reads a file of numbers, sorts the numbers with
+    /// the built-in sort algorithm, then writes the sorted numbers to another file.
     /// </summary>
     static public class EntryPoint
     {
@@ -16,7 +16,7 @@ namespace Quicksort
         /// <summary>This is the file to output the sorted values to.</summary>
         static private string outputFile = Path.Combine("..", "..", "sortedFile.txt");
 
-        /// <summary>This is the entry point for a quicksort in Go.</summary>
+        /// <summary>This is the entry point for a core sort in C#.</summary>
         static public void Main()
         {
             int[] data = ReadFile();
@@ -24,7 +24,7 @@ namespace Quicksort
             if (length <= 0)
                 throw new Exception("Failed to read input file");
 
-            Quicksort(data, 0, length - 1);
+            Array.Sort(data);
 
             WriteFile(data);
         }
@@ -43,36 +43,6 @@ namespace Quicksort
                     line = file.ReadLine();
                 }
                 return data.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// This performs a quick sort in the low inclusive and high inclusive range.
-        /// </summary>
-        /// <param name="data">The data being quick sorted.</param>
-        /// <param name="low">The low inclusive index for the range to sort.</param>
-        /// <param name="high">The hight inclusive index for the range to sort.</param>
-        static private void Quicksort(int[] data, int low, int high)
-        {
-            if (low < high)
-            {
-                int p = low, temp;
-                for (int j = low, pivot = data[high]; j < high; j++)
-                {
-                    if (data[j] < pivot)
-                    {
-                        temp = data[p];
-                        data[p] = data[j];
-                        data[j] = temp;
-                        p++;
-                    }
-                }
-                temp = data[p];
-                data[p] = data[high];
-                data[high] = temp;
-
-                Quicksort(data, low, p - 1);
-                Quicksort(data, p + 1, high);
             }
         }
 

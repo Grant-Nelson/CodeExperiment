@@ -21,7 +21,7 @@ public class Core {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a core sort in Go.
+     * This is the entry point for a core sort in Java.
      * 
      * @param args not used.
      */

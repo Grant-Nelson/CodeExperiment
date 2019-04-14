@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Mergesort
+namespace Quicksort
 {
     /// <summary>
-    /// This class reads a file of numbers, merge sorts the numbers,
+    /// This class reads a file of numbers, quick sorts the numbers,
     /// then writes the sorted numbers to another file.
     /// </summary>
     static public class EntryPoint
@@ -16,19 +16,17 @@ namespace Mergesort
         /// <summary>This is the file to output the sorted values to.</summary>
         static private string outputFile = Path.Combine("..", "..", "sortedFile.txt");
 
-        /// <summary>This is the entry point for a merge sort in Go.</summary>
+        /// <summary>This is the entry point for a quicksort in C#.</summary>
         static public void Main()
         {
-            int[] randomData = ReadFile();
-            int length = randomData.Length;
+            int[] data = ReadFile();
+            int length = data.Length;
             if (length <= 0)
                 throw new Exception("Failed to read input file");
 
-            int[] sortedData = new int[length];
-            randomData.CopyTo(sortedData, 0);
-            Split(randomData, sortedData, 0, length);
+            Quicksort(data, 0, length - 1);
 
-            WriteFile(sortedData);
+            WriteFile(data);
         }
 
         /// <summary>This reads all the values from the input file.</summary>
@@ -49,33 +47,32 @@ namespace Mergesort
         }
 
         /// <summary>
-        /// This performs a top down merge sort by splitting the current level into 2
-        /// parts to sort, then merging the two parts.
+        /// This performs a quick sort in the low inclusive and high inclusive range.
         /// </summary>
-        /// <param name="a">The source array for merging from.</param>
-        /// <param name="b">The copy of the array for merging to.</param>
-        /// <param name="start">The inclusive index to start merging at.</param>
-        /// <param name="stop">The exclusive index to stop merging at.</param>
-        static private void Split(int[] a, int[] b, int start, int stop)
+        /// <param name="data">The data being quick sorted.</param>
+        /// <param name="low">The low inclusive index for the range to sort.</param>
+        /// <param name="high">The hight inclusive index for the range to sort.</param>
+        static private void Quicksort(int[] data, int low, int high)
         {
-            if (stop - start < 2) return;
-
-            int mid = (stop + start) / 2;
-            Split(b, a, start, mid);
-            Split(b, a, mid, stop);
-
-            for (int i = start, j = mid, k = start; k < stop; ++k)
+            if (low < high)
             {
-                if ((i < mid) && ((j >= stop) || (a[i] <= a[j])))
+                int p = low, temp;
+                for (int j = low, pivot = data[high]; j < high; j++)
                 {
-                    b[k] = a[i];
-                    ++i;
+                    if (data[j] < pivot)
+                    {
+                        temp = data[p];
+                        data[p] = data[j];
+                        data[j] = temp;
+                        p++;
+                    }
                 }
-                else
-                {
-                    b[k] = a[j];
-                    ++j;
-                }
+                temp = data[p];
+                data[p] = data[high];
+                data[high] = temp;
+
+                Quicksort(data, low, p - 1);
+                Quicksort(data, p + 1, high);
             }
         }
 

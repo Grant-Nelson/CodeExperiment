@@ -38,7 +38,7 @@ namespace Binarytree
             }
         }
 
-        /// <summary>This is the entry point for a binary tree sort in Go.</summary>
+        /// <summary>This is the entry point for a binary tree sort in C#.</summary>
         static public void Main()
         {
             int[] data = ReadFile();

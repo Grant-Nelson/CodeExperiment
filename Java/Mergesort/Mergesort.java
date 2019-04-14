@@ -20,7 +20,7 @@ public class Mergesort {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a merge sort in Go.
+     * This is the entry point for a merge sort in Java.
      * 
      * @param args not used.
      */

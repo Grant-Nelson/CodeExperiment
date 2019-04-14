@@ -20,7 +20,7 @@ public class Quicksort {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a quicksort in Go.
+     * This is the entry point for a quicksort in Java.
      * 
      * @param args not used.
      */
