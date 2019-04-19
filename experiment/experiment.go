@@ -12,8 +12,22 @@ import (
 	"time"
 )
 
+// experiment is an object for running an experiment.
+type experiment struct {
+
+	// order is a monotonically increasing treatment order number.
+	order int
+}
+
+// newExperiment constructs a new experiment.
+func newExperiment() *experiment {
+	return &experiment{
+		order: 1,
+	}
+}
+
 // runExperiment runs the full experiment.
-func runExperiment() {
+func (e *experiment) runExperiment() {
 	// Seed the random number generator with current nanoseconds.
 	rand.Seed(time.Now().UTC().UnixNano())
 
@@ -30,34 +44,41 @@ func runExperiment() {
 		panic(err)
 	}
 	defer resultF.Close()
-	resultF.WriteString(strings.Join(names, resultSeparators) + "\n")
+	resultF.WriteString("order replicate index language algorithm seconds\n")
 
 	// Run all the repetitions of the experiment.
+	e.order = 1
 	for i := 1; i <= repetitions; i++ {
 		fmt.Printf("replicate %d of %d\n", i, repetitions)
-		runReplicate(resultF)
+		e.runReplicate(i, resultF)
 	}
 }
 
 // runReplicate runs the set of the applications on a single input file.
-func runReplicate(resultF *os.File) {
-	createRandomFile()
-	deleteSortedFile()
-	trmts := randomizeApplicationOrder()
-	results := make([]string, len(trmts))
+func (e *experiment) runReplicate(replicate int, resultF *os.File) {
+	e.createRandomFile()
+	e.deleteSortedFile()
+	trmts := e.randomizeApplicationOrder()
 	for _, trmt := range trmts {
-		secs := trmt.Run()
-		checkOutputFile(trmt)
-		deleteSortedFile()
-		results[trmt.index] = fmt.Sprintf("%.*f", resultPrecision, secs)
-	}
 
-	resultF.WriteString(strings.Join(results, resultSeparators) + "\n")
+		// Run treatment
+		secs := trmt.Run()
+
+		// Check it rand it correctly
+		e.checkOutputFile(trmt)
+		e.deleteSortedFile()
+
+		// Write results to the result file
+		result := fmt.Sprintf("%d %d %d %s %s %.*f\n",
+			e.order, replicate, trmt.index, trmt.language, trmt.algorithm, resultPrecision, secs)
+		resultF.WriteString(result)
+		e.order++
+	}
 	resultF.Sync()
 }
 
 // createRandomFile creates a new random file which can be used as input for a replication.
-func createRandomFile() {
+func (e *experiment) createRandomFile() {
 	values := make([]string, fileLength)
 	for i := 0; i < fileLength; i++ {
 		// Use 0 to 2^31 to work with all 32-bit base languages
@@ -71,7 +92,7 @@ func createRandomFile() {
 }
 
 // randomizeApplicationOrder gets the randomized order of the applications and the paired order.
-func randomizeApplicationOrder() []*treatment {
+func (e *experiment) randomizeApplicationOrder() []*treatment {
 	length := len(treatments)
 	trmtCopy := make([]*treatment, length)
 	copy(trmtCopy, treatments)
@@ -84,7 +105,7 @@ func randomizeApplicationOrder() []*treatment {
 }
 
 // checkOutputFile checks that the output file has been sorted.
-func checkOutputFile(trmt *treatment) {
+func (e *experiment) checkOutputFile(trmt *treatment) {
 	file, err := os.Open(sortedFile)
 	if err != nil {
 		panic(fmt.Errorf("failed to read sorted output file from %s: %v", trmt.String(), err))
@@ -120,7 +141,7 @@ func checkOutputFile(trmt *treatment) {
 }
 
 // deleteSortedFile deletes the result file.
-func deleteSortedFile() {
+func (e *experiment) deleteSortedFile() {
 	if err := os.Remove(sortedFile); err != nil {
 		if !os.IsNotExist(err) {
 			panic(err)

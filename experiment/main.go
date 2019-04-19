@@ -24,9 +24,6 @@ const (
 
 	// resultPrecision is the precision for the result values.
 	resultPrecision = 5
-
-	// resultSeparators is the characters to put between results.
-	resultSeparators = `, `
 )
 
 // treatments is the list of all sort algorithms and languages.
@@ -80,7 +77,7 @@ func main() {
 	}
 
 	if run {
-		runExperiment()
+		newExperiment().runExperiment()
 	}
 
 	os.Exit(0)

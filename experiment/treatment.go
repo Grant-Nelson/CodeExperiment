@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	// pathSep is the seperator between paths as a string.
 	pathSep = string(os.PathSeparator)
 )
 
