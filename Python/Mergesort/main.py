@@ -7,15 +7,6 @@ outputFile = os.path.join("..", "..", "sortedFile.txt")
 """ This is the file to output the sorted values to. """
 
 
-def readFile():
-    """ This reads all the values from the input file. """
-    data = []
-    f = open(inputFile, "r")
-    for line in f:
-        data.append(int(line))
-    return data
-
-
 def split(a, b, start, stop):
     """ This performs a top down merge sort by splitting the
     current level into 2 parts to sort, then merging the two parts.
@@ -38,6 +29,24 @@ def split(a, b, start, stop):
             j = j+1
 
 
+def sort(data):
+    """ This sorts the given data. """
+    length = len(data)
+    sortedData = data.copy()
+    split(data, sortedData, 0, length)
+    for i in range(0, length):
+        data[i] = sortedData[i]
+
+
+def readFile():
+    """ This reads all the values from the input file. """
+    data = []
+    f = open(inputFile, "r")
+    for line in f:
+        data.append(int(line))
+    return data
+
+
 def writeFile(data):
     """ This writes the values to the output file. """
     f = open(outputFile, "w")
@@ -46,11 +55,7 @@ def writeFile(data):
     f.close()
 
 
-randomData = readFile()
-length = len(randomData)
-
-sortedData = randomData.copy()
-split(randomData, sortedData, 0, length)
-
-writeFile(sortedData)
+data = readFile()
+sort(data)
+writeFile(data)
 exit(0)

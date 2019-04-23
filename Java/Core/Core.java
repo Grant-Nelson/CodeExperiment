@@ -19,26 +19,14 @@ public class Core {
     /** This is the file to output the sorted values to. */
     static private final String outputFile =
         Paths.get("..", "..", "sortedFile.txt").toString();
-
+        
     /**
-     * This is the entry point for a core sort in Java.
-     * 
-     * @param args not used.
+     * This sorts the given data.
+     *
+     * @param data  The data to sort.
      */
-    public static void main(String[] args) {
-        try {
-            int[] data = readFile();
-            int length = data.length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-            
-            Arrays.sort(data);
-
-            writeFile(data);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.exit(1);
-        }
+    private static void sort(int[] data) {
+        Arrays.sort(data);
     }
 
     /**
@@ -76,5 +64,21 @@ public class Core {
             writer.write(value + "\n");
         }
         writer.close();
+    }
+
+    /**
+     * This is the entry point for a core sort in Java.
+     * 
+     * @param args not used.
+     */
+    public static void main(String[] args) {
+        try {
+            int[] data = readFile();
+            sort(data);
+            writeFile(data);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(1);
+        }
     }
 }

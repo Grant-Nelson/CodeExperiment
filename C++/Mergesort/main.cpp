@@ -16,6 +16,53 @@
 #define OUTPUT_FILE "..\\..\\sortedFile.txt"
 
 /**
+ * This performs a top down merge sort by splitting the current level into 2
+ * parts to sort, then merging the two parts.
+ *
+ * @param a The source array for merging from.
+ * @param b The copy of the array for merging to.
+ * @param start The inclusive index to start merging at.
+ * @param stop The exclusive index to stop merging at.
+ */
+void split(int *a, int *b, int start, int stop)
+{
+    if (stop - start < 2)
+        return;
+
+    int mid = (stop + start) / 2;
+    split(b, a, start, mid);
+    split(b, a, mid, stop);
+
+    for (int i = start, j = mid, k = start; k < stop; ++k)
+    {
+        if ((i < mid) && ((j >= stop) || (a[i] <= a[j])))
+        {
+            b[k] = a[i];
+            ++i;
+        }
+        else
+        {
+            b[k] = a[j];
+            ++j;
+        }
+    }
+}
+
+/**
+ * This sorts the given data.
+ * 
+ * @param data The array to sort.
+ */
+void sort(int *data, int length)
+{
+    int *sortedData = (int *)malloc(length * sizeof(int));
+    std::copy(data, data + length, sortedData);
+    split(data, sortedData, 0, length);
+    std::copy(sortedData, sortedData + length, data);
+    if (sortedData) free(sortedData);
+}
+
+/**
  * This reads all the values from the input file.
  * 
  * @param data A pointer to an array which will be replaced by the loaded data.
@@ -56,39 +103,6 @@ void readFile(int **data, int *length)
 }
 
 /**
- * This performs a top down merge sort by splitting the current level into 2
- * parts to sort, then merging the two parts.
- *
- * @param a The source array for merging from.
- * @param b The copy of the array for merging to.
- * @param start The inclusive index to start merging at.
- * @param stop The exclusive index to stop merging at.
- */
-void split(int *a, int *b, int start, int stop)
-{
-    if (stop - start < 2)
-        return;
-
-    int mid = (stop + start) / 2;
-    split(b, a, start, mid);
-    split(b, a, mid, stop);
-
-    for (int i = start, j = mid, k = start; k < stop; ++k)
-    {
-        if ((i < mid) && ((j >= stop) || (a[i] <= a[j])))
-        {
-            b[k] = a[i];
-            ++i;
-        }
-        else
-        {
-            b[k] = a[j];
-            ++j;
-        }
-    }
-}
-
-/**
  * This writes the values to the output file.
  * 
  * @param data The sorted values to write to the output file.
@@ -115,19 +129,13 @@ void writeFile(int *data, int length)
  */
 int main()
 {
-    int *randomData = NULL;
+    int *data = NULL;
     int length = 0;
-    readFile(&randomData, &length);
+    readFile(&data, &length);
 
-    int *sortedData = (int *)malloc(length * sizeof(int));
-    std::copy(randomData, randomData + length, sortedData);
-    split(randomData, sortedData, 0, length);
+    sort(data, length);
 
-    writeFile(sortedData, length);
-
-    if (randomData)
-        free(randomData);
-    if (sortedData)
-        free(sortedData);
+    writeFile(data, length);
+    if (data) free(data);
     return 0;
 }

@@ -16,6 +16,47 @@
 #define OUTPUT_FILE "..\\..\\sortedFile.txt"
 
 /**
+ * This performs a quick sort in the low inclusive and high inclusive range.
+ *
+ * @param data The data being quick sorted.
+ * @param low The low inclusive index for the range to sort.
+ * @param high The hight inclusive index for the range to sort.
+ */
+void quicksort(int *data, int low, int high)
+{
+    if (low < high)
+    {
+        int p = low, temp;
+        for (int j = low, pivot = data[high]; j < high; j++)
+        {
+            if (data[j] < pivot)
+            {
+                temp = data[p];
+                data[p] = data[j];
+                data[j] = temp;
+                p++;
+            }
+        }
+        temp = data[p];
+        data[p] = data[high];
+        data[high] = temp;
+
+        quicksort(data, low, p - 1);
+        quicksort(data, p + 1, high);
+    }
+}
+
+/**
+ * This sorts the given data.
+ * 
+ * @param data The array to sort.
+ */
+void sort(int *data, int length)
+{
+    quicksort(data, 0, length - 1);
+}
+
+/**
  * This reads all the values from the input file.
  * 
  * @param data A pointer to an array which will be replaced by the loaded data.
@@ -56,37 +97,6 @@ void readFile(int **data, int *length)
 }
 
 /**
- * This performs a quick sort in the low inclusive and high inclusive range.
- *
- * @param data The data being quick sorted.
- * @param low The low inclusive index for the range to sort.
- * @param high The hight inclusive index for the range to sort.
- */
-void quicksort(int *data, int low, int high)
-{
-    if (low < high)
-    {
-        int p = low, temp;
-        for (int j = low, pivot = data[high]; j < high; j++)
-        {
-            if (data[j] < pivot)
-            {
-                temp = data[p];
-                data[p] = data[j];
-                data[j] = temp;
-                p++;
-            }
-        }
-        temp = data[p];
-        data[p] = data[high];
-        data[high] = temp;
-
-        quicksort(data, low, p - 1);
-        quicksort(data, p + 1, high);
-    }
-}
-
-/**
  * This writes the values to the output file.
  * 
  * @param data The sorted values to write to the output file.
@@ -117,11 +127,9 @@ int main()
     int length = 0;
     readFile(&data, &length);
 
-    quicksort(data, 0, length - 1);
+    sort(data, length);
 
     writeFile(data, length);
-
-    if (data)
-        free(data);
+    if (data) free(data);
     return 0;
 }

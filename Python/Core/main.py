@@ -7,6 +7,11 @@ outputFile = os.path.join("..", "..", "sortedFile.txt")
 """ This is the file to output the sorted values to. """
 
 
+def sort(data):
+    """ This sorts the given data. """
+    list.sort(data)
+
+
 def readFile():
     """ This reads all the values from the input file. """
     data = []
@@ -25,9 +30,6 @@ def writeFile(data):
 
 
 data = readFile()
-length = len(data)
-
-list.sort(data)
-
+sort(data)
 writeFile(data)
 exit(0)

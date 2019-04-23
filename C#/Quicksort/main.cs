@@ -16,36 +16,6 @@ namespace Quicksort
         /// <summary>This is the file to output the sorted values to.</summary>
         static private string outputFile = Path.Combine("..", "..", "sortedFile.txt");
 
-        /// <summary>This is the entry point for a quicksort in C#.</summary>
-        static public void Main()
-        {
-            int[] data = ReadFile();
-            int length = data.Length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
-            Quicksort(data, 0, length - 1);
-
-            WriteFile(data);
-        }
-
-        /// <summary>This reads all the values from the input file.</summary>
-        /// <returns>An unsorted list of values from the input file.</returns>
-        static private int[] ReadFile()
-        {
-            using(StreamReader file = new StreamReader(inputFile))
-            {
-                List<int> data = new List<int>();
-                string line = file.ReadLine();
-                while (line != null)
-                {
-                    data.Add(int.Parse(line));
-                    line = file.ReadLine();
-                }
-                return data.ToArray();
-            }
-        }
-
         /// <summary>
         /// This performs a quick sort in the low inclusive and high inclusive range.
         /// </summary>
@@ -76,6 +46,30 @@ namespace Quicksort
             }
         }
 
+        /// <summary>This sorts the given data.</summary>
+        /// <param name="data">The data to sort.</param>
+        static private void Sort(int[] data)
+        {
+            Quicksort(data, 0, data.Length - 1);
+        }
+
+        /// <summary>This reads all the values from the input file.</summary>
+        /// <returns>An unsorted list of values from the input file.</returns>
+        static private int[] ReadFile()
+        {
+            using(StreamReader file = new StreamReader(inputFile))
+            {
+                List<int> data = new List<int>();
+                string line = file.ReadLine();
+                while (line != null)
+                {
+                    data.Add(int.Parse(line));
+                    line = file.ReadLine();
+                }
+                return data.ToArray();
+            }
+        }
+
         /// <summary>This writes the values to the output file.</summary>
         /// <param name="data">The sorted values to write to the output file.</param>
         static private void WriteFile(int[] data)
@@ -85,6 +79,14 @@ namespace Quicksort
                 foreach (int value in data)
                     file.WriteLine(value);
             }
+        }
+
+        /// <summary>This is the entry point for a quicksort in C#.</summary>
+        static public void Main()
+        {
+            int[] data = ReadFile();
+            Sort(data);
+            WriteFile(data);
         }
     }
 }

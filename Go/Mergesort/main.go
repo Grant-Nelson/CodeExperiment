@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -18,20 +17,36 @@ var (
 	outputFile = path.Join(`..`, `..`, `sortedFile.txt`)
 )
 
-// main is the entry point for a merge sort in Go.
-func main() {
-	randomData := readFile()
-	length := len(randomData)
-	if length <= 0 {
-		panic(errors.New("Failed to read input file"))
+// split performs a top down merge sort by splitting the
+// current level into 2 parts to sort, then merging the two parts.
+// start is inclusive and stop is exclusive.
+func split(a, b []int, start, stop int) {
+	if stop-start < 2 {
+		return
 	}
 
-	sortedData := make([]int, length)
-	copy(sortedData, randomData)
-	split(randomData, sortedData, 0, length)
+	mid := (stop + start) / 2
+	split(b, a, start, mid)
+	split(b, a, mid, stop)
 
-	writeFile(sortedData)
-	os.Exit(0)
+	for i, j, k := start, mid, start; k < stop; k++ {
+		if (i < mid) && ((j >= stop) || (a[i] <= a[j])) {
+			b[k] = a[i]
+			i++
+		} else {
+			b[k] = a[j]
+			j++
+		}
+	}
+}
+
+// sort will sort the given data.
+func sort(data []int) {
+	length := len(data)
+	sortedData := make([]int, length)
+	copy(sortedData, data)
+	split(data, sortedData, 0, length)
+	copy(data, sortedData)
 }
 
 // readFile reads all the values from the input file.
@@ -64,29 +79,6 @@ func readFile() []int {
 	return randomData
 }
 
-// split performs a top down merge sort by splitting the
-// current level into 2 parts to sort, then merging the two parts.
-// start is inclusive and stop is exclusive.
-func split(a, b []int, start, stop int) {
-	if stop-start < 2 {
-		return
-	}
-
-	mid := (stop + start) / 2
-	split(b, a, start, mid)
-	split(b, a, mid, stop)
-
-	for i, j, k := start, mid, start; k < stop; k++ {
-		if (i < mid) && ((j >= stop) || (a[i] <= a[j])) {
-			b[k] = a[i]
-			i++
-		} else {
-			b[k] = a[j]
-			j++
-		}
-	}
-}
-
 // writeFile writes the values to the output file.
 func writeFile(data []int) {
 	file, err := os.Create(outputFile)
@@ -98,4 +90,12 @@ func writeFile(data []int) {
 	for _, value := range data {
 		file.WriteString(fmt.Sprintf("%d\n", value))
 	}
+}
+
+// main is the entry point for a merge sort in Go.
+func main() {
+	data := readFile()
+	sort(data)
+	writeFile(data)
+	os.Exit(0)
 }

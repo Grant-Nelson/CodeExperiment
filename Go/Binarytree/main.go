@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -40,55 +39,6 @@ func newNode(value int) *node {
 	}
 }
 
-// main is the entry point for a binary tree sort in Go.
-func main() {
-	data := readFile()
-	length := len(data)
-	if length <= 0 {
-		panic(errors.New("Failed to read input file"))
-	}
-
-	root := newNode(data[0])
-	for i := 1; i < length; i++ {
-		insertValue(data[i], root)
-	}
-
-	outputValues(0, root, data)
-
-	writeFile(data)
-	os.Exit(0)
-}
-
-// readFile reads all the values from the input file.
-func readFile() []int {
-	file, err := os.Open(inputFile)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-
-	randomData := []int{}
-	reader := bufio.NewReader(file)
-	for {
-		data, _, err := reader.ReadLine()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			panic(err)
-		}
-
-		value, err := strconv.Atoi(string(data))
-		if err != nil {
-			panic(err)
-		}
-
-		randomData = append(randomData, value)
-	}
-
-	return randomData
-}
-
 // insertValue inserts a value into the tree recursively.
 func insertValue(value int, n *node) {
 	if n.value > value {
@@ -121,6 +71,47 @@ func outputValues(index int, n *node, data []int) int {
 	return index
 }
 
+// sort will sort the given data.
+func sort(data []int) {
+	length := len(data)
+	root := newNode(data[0])
+	for i := 1; i < length; i++ {
+		insertValue(data[i], root)
+	}
+
+	outputValues(0, root, data)
+}
+
+// readFile reads all the values from the input file.
+func readFile() []int {
+	file, err := os.Open(inputFile)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	randomData := []int{}
+	reader := bufio.NewReader(file)
+	for {
+		data, _, err := reader.ReadLine()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			panic(err)
+		}
+
+		value, err := strconv.Atoi(string(data))
+		if err != nil {
+			panic(err)
+		}
+
+		randomData = append(randomData, value)
+	}
+
+	return randomData
+}
+
 // writeFile writes the values to the output file.
 func writeFile(data []int) {
 	file, err := os.Create(outputFile)
@@ -132,4 +123,12 @@ func writeFile(data []int) {
 	for _, value := range data {
 		file.WriteString(fmt.Sprintf("%d\n", value))
 	}
+}
+
+// main is the entry point for a binary tree sort in Go.
+func main() {
+	data := readFile()
+	sort(data)
+	writeFile(data)
+	os.Exit(0)
 }

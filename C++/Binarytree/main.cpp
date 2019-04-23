@@ -15,46 +15,6 @@
 // This is the file to output the sorted values to.
 #define OUTPUT_FILE "..\\..\\sortedFile.txt"
 
-/**
- * This reads all the values from the input file.
- * 
- * @param data A pointer to an array which will be replaced by the loaded data.
- * @param length The length of the data array.
- */
-void readFile(int **data, int *length)
-{
-    int count = 0, value, i;
-    int capacity = BUFFER_GROWTH;
-    int *buf = NULL, *oldbuf;
-
-    FILE *fid = fopen(INPUT_FILE, "r");
-    if (fid)
-    {
-        buf = (int *)malloc(capacity * sizeof(int));
-        while (!feof(fid))
-        {
-            fscanf(fid, "%d", &value);
-
-            if (count + 1 >= capacity)
-            {
-                capacity += BUFFER_GROWTH;
-                oldbuf = buf;
-                buf = (int *)malloc(capacity * sizeof(int));
-                for (i = 0; i < count; ++i)
-                    buf[i] = oldbuf[i];
-                free(oldbuf);
-            }
-
-            buf[count] = value;
-            ++count;
-        }
-        fclose(fid);
-    }
-
-    *length = count;
-    *data = buf;
-}
-
 // This is the binary tree node.
 class Node
 {
@@ -140,6 +100,65 @@ int outputValues(int index, Node *n, int *data)
 }
 
 /**
+ * This sorts the given data.
+ * 
+ * @param data The array to sort.
+ */
+void sort(int *data, int length)
+{
+    Node *root = new Node(data[0]);
+    for (int i = 1; i < length; ++i)
+    {
+        Node *n = new Node(data[i]);
+        insertValue(root, n);
+    }
+
+    outputValues(0, root, data);
+
+    free(root);
+}
+
+/**
+ * This reads all the values from the input file.
+ * 
+ * @param data A pointer to an array which will be replaced by the loaded data.
+ * @param length The length of the data array.
+ */
+void readFile(int **data, int *length)
+{
+    int count = 0, value, i;
+    int capacity = BUFFER_GROWTH;
+    int *buf = NULL, *oldbuf;
+
+    FILE *fid = fopen(INPUT_FILE, "r");
+    if (fid)
+    {
+        buf = (int *)malloc(capacity * sizeof(int));
+        while (!feof(fid))
+        {
+            fscanf(fid, "%d", &value);
+
+            if (count + 1 >= capacity)
+            {
+                capacity += BUFFER_GROWTH;
+                oldbuf = buf;
+                buf = (int *)malloc(capacity * sizeof(int));
+                for (i = 0; i < count; ++i)
+                    buf[i] = oldbuf[i];
+                free(oldbuf);
+            }
+
+            buf[count] = value;
+            ++count;
+        }
+        fclose(fid);
+    }
+
+    *length = count;
+    *data = buf;
+}
+
+/**
  * This writes the values to the output file.
  * 
  * @param data The sorted values to write to the output file.
@@ -170,19 +189,9 @@ int main()
     int length = 0;
     readFile(&data, &length);
 
-    Node *root = new Node(data[0]);
-    for (int i = 1; i < length; ++i)
-    {
-        Node *n = new Node(data[i]);
-        insertValue(root, n);
-    }
-
-    outputValues(0, root, data);
+    sort(data, length);
 
     writeFile(data, length);
-
-    if (data)
-        free(data);
-    free(root);
+    if (data) free(data);
     return 0;
 }

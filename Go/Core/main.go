@@ -2,12 +2,11 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path"
-	"sort"
+	goSort "sort"
 	"strconv"
 )
 
@@ -19,18 +18,9 @@ var (
 	outputFile = path.Join(`..`, `..`, `sortedFile.txt`)
 )
 
-// main is the entry point for a core sort in Go.
-func main() {
-	data := readFile()
-	length := len(data)
-	if length <= 0 {
-		panic(errors.New("Failed to read input file"))
-	}
-
-	sort.Ints(data)
-
-	writeFile(data)
-	os.Exit(0)
+// sort will sort the given data.
+func sort(data []int) {
+	goSort.Ints(data)
 }
 
 // readFile reads all the values from the input file.
@@ -74,4 +64,12 @@ func writeFile(data []int) {
 	for _, value := range data {
 		file.WriteString(fmt.Sprintf("%d\n", value))
 	}
+}
+
+// main is the entry point for a core sort in Go.
+func main() {
+	data := readFile()
+	sort(data)
+	writeFile(data)
+	os.Exit(0)
 }

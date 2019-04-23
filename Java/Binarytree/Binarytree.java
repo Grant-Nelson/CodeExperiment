@@ -42,54 +42,6 @@ public class Binarytree {
     }
 
     /**
-     * This is the entry point for a binary tree in Go.
-     * 
-     * @param args not used.
-     */
-    public static void main(String[] args) {
-        try {
-            int[] data = readFile();
-            int length = data.length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
-            Node root = new Node(data[0]);
-            for (int i = 1; i < length; i++)
-                insertValue(data[i], root);
-
-            outputValues(0, root, data);
-    
-            writeFile(data);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.exit(1);
-        }
-    }
-
-    /**
-     * This reads all the values from the input file.
-     * 
-     * @return An unsorted list of values from the input file.
-     * @throws Exception
-     */
-    private static int[] readFile() throws Exception {
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-        String line = reader.readLine();
-        while (line != null) {
-            values.add(Integer.parseInt(line));
-            line = reader.readLine();
-        }
-        reader.close();
-
-        int length = values.size();
-        int[] data = new int[length];
-        for (int i = 0; i < length; i++)
-            data[i] = values.get(i).intValue();
-        return data;
-    }
-
-    /**
      * This inserts a value into the tree recursively.
      * 
      * @param value This is the value to insert.
@@ -128,6 +80,43 @@ public class Binarytree {
     }
 
     /**
+     * This sorts the given data.
+     *
+     * @param data  The data to sort.
+     */
+    private static void sort(int[] data) {
+        int length = data.length;
+        Node root = new Node(data[0]);
+        for (int i = 1; i < length; i++)
+            insertValue(data[i], root);
+
+        outputValues(0, root, data);
+    }
+
+    /**
+     * This reads all the values from the input file.
+     * 
+     * @return An unsorted list of values from the input file.
+     * @throws Exception
+     */
+    private static int[] readFile() throws Exception {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        String line = reader.readLine();
+        while (line != null) {
+            values.add(Integer.parseInt(line));
+            line = reader.readLine();
+        }
+        reader.close();
+
+        int length = values.size();
+        int[] data = new int[length];
+        for (int i = 0; i < length; i++)
+            data[i] = values.get(i).intValue();
+        return data;
+    }
+
+    /**
      * This writes the values to the output file.
      * 
      * @param data The sorted values to write to the output file.
@@ -139,5 +128,21 @@ public class Binarytree {
             writer.write(value + "\n");
         }
         writer.close();
+    }
+
+    /**
+     * This is the entry point for a binary tree in Go.
+     * 
+     * @param args not used.
+     */
+    public static void main(String[] args) {
+        try {
+            int[] data = readFile();
+            sort(data);
+            writeFile(data);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(1);
+        }
     }
 }

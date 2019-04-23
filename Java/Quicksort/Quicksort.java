@@ -20,50 +20,6 @@ public class Quicksort {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a quicksort in Java.
-     * 
-     * @param args not used.
-     */
-    public static void main(String[] args) {
-        try {
-            int[] data = readFile();
-            int length = data.length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
-            quicksort(data, 0, length - 1);
-            
-            writeFile(data);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.exit(1);
-        }
-    }
-
-    /**
-     * This reads all the values from the input file.
-     * 
-     * @return An unsorted list of values from the input file.
-     * @throws Exception
-     */
-    private static int[] readFile() throws Exception {
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-        String line = reader.readLine();
-        while (line != null) {
-            values.add(Integer.parseInt(line));
-            line = reader.readLine();
-        }
-        reader.close();
-
-        int length = values.size();
-        int[] data = new int[length];
-        for (int i = 0; i < length; i++)
-            data[i] = values.get(i).intValue();
-        return data;
-    }
-
-    /**
      * This performs a quick sort in the low inclusive and high inclusive range.
      * 
      * @param data The data being quick sorted.
@@ -91,6 +47,38 @@ public class Quicksort {
     }
 
     /**
+     * This sorts the given data.
+     *
+     * @param data  The data to sort.
+     */
+    private static void sort(int[] data) {
+        quicksort(data, 0, data.length - 1);
+    }
+
+    /**
+     * This reads all the values from the input file.
+     * 
+     * @return An unsorted list of values from the input file.
+     * @throws Exception
+     */
+    private static int[] readFile() throws Exception {
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        String line = reader.readLine();
+        while (line != null) {
+            values.add(Integer.parseInt(line));
+            line = reader.readLine();
+        }
+        reader.close();
+
+        int length = values.size();
+        int[] data = new int[length];
+        for (int i = 0; i < length; i++)
+            data[i] = values.get(i).intValue();
+        return data;
+    }
+
+    /**
      * This writes the values to the output file.
      * 
      * @param data The sorted values to write to the output file.
@@ -102,5 +90,21 @@ public class Quicksort {
             writer.write(value +"\n");
         }
         writer.close();
+    }
+
+    /**
+     * This is the entry point for a quicksort in Java.
+     * 
+     * @param args not used.
+     */
+    public static void main(String[] args) {
+        try {
+            int[] data = readFile();
+            sort(data);
+            writeFile(data);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(1);
+        }
     }
 }

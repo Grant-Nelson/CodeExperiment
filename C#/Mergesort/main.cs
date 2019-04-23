@@ -16,38 +16,6 @@ namespace Mergesort
         /// <summary>This is the file to output the sorted values to.</summary>
         static private string outputFile = Path.Combine("..", "..", "sortedFile.txt");
 
-        /// <summary>This is the entry point for a merge sort in C#.</summary>
-        static public void Main()
-        {
-            int[] randomData = ReadFile();
-            int length = randomData.Length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
-            int[] sortedData = new int[length];
-            randomData.CopyTo(sortedData, 0);
-            Split(randomData, sortedData, 0, length);
-
-            WriteFile(sortedData);
-        }
-
-        /// <summary>This reads all the values from the input file.</summary>
-        /// <returns>An unsorted list of values from the input file.</returns>
-        static private int[] ReadFile()
-        {
-            using(StreamReader file = new StreamReader(inputFile))
-            {
-                List<int> data = new List<int>();
-                string line = file.ReadLine();
-                while (line != null)
-                {
-                    data.Add(int.Parse(line));
-                    line = file.ReadLine();
-                }
-                return data.ToArray();
-            }
-        }
-
         /// <summary>
         /// This performs a top down merge sort by splitting the current level into 2
         /// parts to sort, then merging the two parts.
@@ -79,6 +47,34 @@ namespace Mergesort
             }
         }
 
+        /// <summary>This sorts the given data.</summary>
+        /// <param name="data">The data to sort.</param>
+        static private void Sort(int[] data)
+        {
+            int length = data.Length;
+            int[] sortedData = new int[length];
+            data.CopyTo(sortedData, 0);
+            Split(data, sortedData, 0, length);
+            sortedData.CopyTo(data, 0);
+        }
+
+        /// <summary>This reads all the values from the input file.</summary>
+        /// <returns>An unsorted list of values from the input file.</returns>
+        static private int[] ReadFile()
+        {
+            using(StreamReader file = new StreamReader(inputFile))
+            {
+                List<int> data = new List<int>();
+                string line = file.ReadLine();
+                while (line != null)
+                {
+                    data.Add(int.Parse(line));
+                    line = file.ReadLine();
+                }
+                return data.ToArray();
+            }
+        }
+
         /// <summary>This writes the values to the output file.</summary>
         /// <param name="data">The sorted values to write to the output file.</param>
         static private void WriteFile(int[] data)
@@ -88,6 +84,14 @@ namespace Mergesort
                 foreach (int value in data)
                     file.WriteLine(value);
             }
+        }
+
+        /// <summary>This is the entry point for a merge sort in C#.</summary>
+        static public void Main()
+        {
+            int[] data = ReadFile();
+            Sort(data);
+            WriteFile(data);
         }
     }
 }

@@ -16,6 +16,16 @@
 #define OUTPUT_FILE "..\\..\\sortedFile.txt"
 
 /**
+ * This sorts the given data.
+ * 
+ * @param data The array to sort.
+ */
+void sort(int *data, int length)
+{
+    std::sort(data, data + length);
+}
+
+/**
  * This reads all the values from the input file.
  * 
  * @param data A pointer to an array which will be replaced by the loaded data.
@@ -86,11 +96,9 @@ int main()
     int length = 0;
     readFile(&data, &length);
 
-    std::sort(data, data + length);
+    sort(data, length);
 
     writeFile(data, length);
-
-    if (data)
-        free(data);
+    if (data) free(data);
     return 0;
 }

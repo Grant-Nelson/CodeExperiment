@@ -8,7 +8,7 @@ import (
 
 const (
 	// repetitions is the number of times to run the experiment.
-	repetitions = 5
+	repetitions = 15
 
 	// fileLength is the number of values to put into the random number file.
 	fileLength = 100000

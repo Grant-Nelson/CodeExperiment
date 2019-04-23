@@ -38,40 +38,6 @@ namespace Binarytree
             }
         }
 
-        /// <summary>This is the entry point for a binary tree sort in C#.</summary>
-        static public void Main()
-        {
-            int[] data = ReadFile();
-            int length = data.Length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
-            Node root = new Node(data[0]);
-            for (int i = 1; i < length; ++i)
-                InsertValue(data[i], root);
-
-            OutputValues(0, root, data);
-
-            WriteFile(data);
-        }
-
-        /// <summary>This reads all the values from the input file.</summary>
-        /// <returns>An unsorted list of values from the input file.</returns>
-        static private int[] ReadFile()
-        {
-            using(StreamReader file = new StreamReader(inputFile))
-            {
-                List<int> data = new List<int>();
-                string line = file.ReadLine();
-                while (line != null)
-                {
-                    data.Add(int.Parse(line));
-                    line = file.ReadLine();
-                }
-                return data.ToArray();
-            }
-        }
-
         /// <summary>This inserts a value into the tree recursively.</summary>
         /// <param name="value">This is the value to insert.</param>
         /// <param name="n">This is the current node to insert inside of.</param>
@@ -105,6 +71,35 @@ namespace Binarytree
             return index;
         }
 
+        /// <summary>This sorts the given data.</summary>
+        /// <param name="data">The data to sort.</param>
+        static private void Sort(int[] data)
+        {
+            int length = data.Length;
+            Node root = new Node(data[0]);
+            for (int i = 1; i < length; ++i)
+                InsertValue(data[i], root);
+
+            OutputValues(0, root, data);
+        }
+
+        /// <summary>This reads all the values from the input file.</summary>
+        /// <returns>An unsorted list of values from the input file.</returns>
+        static private int[] ReadFile()
+        {
+            using(StreamReader file = new StreamReader(inputFile))
+            {
+                List<int> data = new List<int>();
+                string line = file.ReadLine();
+                while (line != null)
+                {
+                    data.Add(int.Parse(line));
+                    line = file.ReadLine();
+                }
+                return data.ToArray();
+            }
+        }
+
         /// <summary>This writes the values to the output file.</summary>
         /// <param name="data">The sorted values to write to the output file.</param>
         static private void WriteFile(int[] data)
@@ -114,6 +109,14 @@ namespace Binarytree
                 foreach (int value in data)
                     file.WriteLine(value);
             }
+        }
+
+        /// <summary>This is the entry point for a binary tree sort in C#.</summary>
+        static public void Main()
+        {
+            int[] data = ReadFile();
+            Sort(data);
+            WriteFile(data);
         }
     }
 }

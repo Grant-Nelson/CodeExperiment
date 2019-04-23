@@ -16,15 +16,6 @@ class Node:
         self.right = right
 
 
-def readFile():
-    """ This reads all the values from the input file. """
-    data = []
-    f = open(inputFile, "r")
-    for line in f:
-        data.append(int(line))
-    return data
-
-
 def insertValue(value, n):
     """ This inserts a value into the tree recursively. """
     if n.value > value:
@@ -52,6 +43,24 @@ def outputValues(index, n, data):
     return index
 
 
+def sort(data):
+    """ This sorts the given data. """
+    root = Node(data[0], None, None)
+    for value in data[1:]:
+        insertValue(value, root)
+
+    outputValues(0, root, data)
+
+
+def readFile():
+    """ This reads all the values from the input file. """
+    data = []
+    f = open(inputFile, "r")
+    for line in f:
+        data.append(int(line))
+    return data
+
+
 def writeFile(data):
     """ This writes the values to the output file. """
     f = open(outputFile, "w")
@@ -61,12 +70,6 @@ def writeFile(data):
 
 
 data = readFile()
-
-root = Node(data[0], None, None)
-for value in data[1:]:
-    insertValue(value, root)
-
-outputValues(0, root, data)
-
+sort(data)
 writeFile(data)
 exit(0)

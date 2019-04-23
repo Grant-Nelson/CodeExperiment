@@ -16,17 +16,11 @@ namespace Core
         /// <summary>This is the file to output the sorted values to.</summary>
         static private string outputFile = Path.Combine("..", "..", "sortedFile.txt");
 
-        /// <summary>This is the entry point for a core sort in C#.</summary>
-        static public void Main()
+        /// <summary>This sorts the given data.</summary>
+        /// <param name="data">The data to sort.</param>
+        static private void Sort(int[] data)
         {
-            int[] data = ReadFile();
-            int length = data.Length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-
             Array.Sort(data);
-
-            WriteFile(data);
         }
 
         /// <summary>This reads all the values from the input file.</summary>
@@ -55,6 +49,14 @@ namespace Core
                 foreach (int value in data)
                     file.WriteLine(value);
             }
+        }
+
+        /// <summary>This is the entry point for a core sort in C#.</summary>
+        static public void Main()
+        {
+            int[] data = ReadFile();
+            Sort(data);
+            WriteFile(data);
         }
     }
 }

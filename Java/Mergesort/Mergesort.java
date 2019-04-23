@@ -20,25 +20,43 @@ public class Mergesort {
         Paths.get("..", "..", "sortedFile.txt").toString();
 
     /**
-     * This is the entry point for a merge sort in Java.
+     * This performs a top down merge sort by splitting the current level into 2
+     * parts to sort, then merging the two parts.
      * 
-     * @param args not used.
+     * @param a     The source array for merging from.
+     * @param b     The copy of the array for merging to.
+     * @param start The inclusive index to start merging at.
+     * @param stop  The exclusive index to stop merging at.
      */
-    public static void main(String[] args) {
-        try {
-            int[] randomData = readFile();
-            int length = randomData.length;
-            if (length <= 0)
-                throw new Exception("Failed to read input file");
-            
-            int[] sortedData = randomData.clone();
-            split(randomData, sortedData, 0, length);
+    private static void split(int[] a, int[] b, int start, int stop) {
+        if (stop-start < 2) return;
+        
+        int mid = (stop + start) / 2;
+        split(b, a, start, mid);
+        split(b, a, mid, stop);
 
-            writeFile(sortedData);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.exit(1);
+        for (int i = start, j = mid, k = start; k < stop; k++) {
+            if ((i < mid) && ((j >= stop) || (a[i] <= a[j]))) {
+                b[k] = a[i];
+                i++;
+            } else {
+                b[k] = a[j];
+                j++;
+            }
         }
+    }
+    
+    /**
+     * This sorts the given data.
+     *
+     * @param data  The data to sort.
+     */
+    private static void sort(int[] data) {
+        int length = data.length;
+        int[] sortedData = data.clone();
+        split(data, sortedData, 0, length);
+        for (int i = 0; i < length; i++)
+            data[i] = sortedData[i];
     }
 
     /**
@@ -65,33 +83,6 @@ public class Mergesort {
     }
 
     /**
-     * This performs a top down merge sort by splitting the current level into 2
-     * parts to sort, then merging the two parts.
-     * 
-     * @param a     The source array for merging from.
-     * @param b     The copy of the array for merging to.
-     * @param start The inclusive index to start merging at.
-     * @param stop  The exclusive index to stop merging at.
-     */
-    private static void split(int[] a, int[] b, int start, int stop) {
-        if (stop-start < 2) return;
-        
-        int mid = (stop + start) / 2;
-        split(b, a, start, mid);
-        split(b, a, mid, stop);
-
-        for (int i = start, j = mid, k = start; k < stop; k++) {
-            if ((i < mid) && ((j >= stop) || (a[i] <= a[j]))) {
-                b[k] = a[i];
-                i++;
-            } else {
-                b[k] = a[j];
-                j++;
-            }
-        }
-    }
-
-    /**
      * This writes the values to the output file.
      * 
      * @param data The sorted values to write to the output file.
@@ -103,5 +94,21 @@ public class Mergesort {
             writer.write(value + "\n");
         }
         writer.close();
+    }
+
+    /**
+     * This is the entry point for a merge sort in Java.
+     * 
+     * @param args not used.
+     */
+    public static void main(String[] args) {
+        try {
+            int[] data = readFile();
+            sort(data);
+            writeFile(data);
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(1);
+        }
     }
 }

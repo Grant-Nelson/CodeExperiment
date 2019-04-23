@@ -24,6 +24,7 @@
 .DS_Store
 thumbs.db
 .vscode
+*.code-workspace
 
 # Experiment test files
 randomFile.txt
