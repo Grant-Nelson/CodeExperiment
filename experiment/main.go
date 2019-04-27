@@ -39,11 +39,11 @@ var treatments = []*treatment{
 // main is the entry point for the experiment.
 func main() {
 	build := false
-	flag.BoolVar(&build, "build", false,
+	flag.BoolVar(&build, "build", build,
 		`Set to build the treatment.`)
 
 	run := false
-	flag.BoolVar(&run, "run", false,
+	flag.BoolVar(&run, "run", run,
 		`Set to run the experiment.`)
 
 	repetitions := 100
@@ -51,7 +51,7 @@ func main() {
 		`The number of times to run the experiment.`)
 
 	fileLength := 100000
-	flag.IntVar(&fileLength, "fileLength", repetitions,
+	flag.IntVar(&fileLength, "fileLength", fileLength,
 		`The number of values to put into the random number file.`)
 
 	resultFile := `results.txt`

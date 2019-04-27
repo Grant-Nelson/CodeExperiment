@@ -72,6 +72,8 @@ func (e *experiment) runExperiment() {
 		panic(err)
 	}
 	defer resultF.Close()
+	resultF.WriteString("file length: " + strconv.Itoa(e.fileLength))
+	resultF.WriteString("fixed file:  " + strconv.FormatBool(e.fixFile))
 	resultF.WriteString("order replicate index language algorithm seconds\n")
 
 	// Run all the repetitions of the experiment.
