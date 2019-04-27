@@ -9,16 +9,19 @@ LINES;
 
 PROC GLM DATA=IN PLOTS=ALL;
 	CLASS language algorithm;
-	MODEL seconds = language language(algorithm) / SS3;
-	RANDOM language language(algorithm) / TEST;
-    MEANS language language(algorithm);
-TITLE '';
-
-PROC GLM DATA=IN PLOTS=ALL;
-	CLASS language algorithm;
 	MODEL seconds = language|algorithm / SS3;
-	RANDOM language algorithm / TEST;
+	RANDOM language|algorithm / TEST;
     MEANS language|algorithm;
-TITLE 'Factorieal Design';
+TITLE 'Language and Algorithm - Factorial Design';
+RUN;
 
+PROC GLMPOWER DATA=IN;
+	 CLASS language algorithm;
+     MODEL seconds = language|algorithm;
+     POWER
+    	 stddev = {{ Set Standard Deviation }}
+    	 alpha = 0.05
+    	 Ntotal = .
+    	 Power = .88 .90 .92;   	 
+TITLE 'Power for language|algorithm';
 RUN;

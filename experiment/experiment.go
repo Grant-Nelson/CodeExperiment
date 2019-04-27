@@ -12,17 +12,45 @@ import (
 	"time"
 )
 
+const (
+	// randomFile is the file to generate and input into each application.
+	randomFile = `randomFile.txt`
+
+	// sortedFile is the file location that the application outputs.
+	sortedFile = `sortedFile.txt`
+
+	// resultPrecision is the precision for the result values.
+	resultPrecision = 5
+)
+
 // experiment is an object for running an experiment.
 type experiment struct {
 
 	// order is a monotonically increasing treatment order number.
 	order int
+
+	// repetitions is the number of times to run the experiment.
+	repetitions int
+
+	// fileLength is the number of values to put into the random number file.
+	fileLength int
+
+	// resultFile is the result file to write the duration of the application to.
+	resultFile string
+
+	// fixFile indicates if (true) only one random file should be used for all repetitions,
+	// otherwise (false) a new random file is created per repetition.
+	fixFile bool
 }
 
 // newExperiment constructs a new experiment.
-func newExperiment() *experiment {
+func newExperiment(repetitions, fileLength int, resultFile string, fixFile bool) *experiment {
 	return &experiment{
-		order: 1,
+		order:       1,
+		repetitions: repetitions,
+		fileLength:  fileLength,
+		resultFile:  resultFile,
+		fixFile:     fixFile,
 	}
 }
 
@@ -39,7 +67,7 @@ func (e *experiment) runExperiment() {
 	}
 
 	// Create the results output file.
-	resultF, err := os.Create(resultFile)
+	resultF, err := os.Create(e.resultFile)
 	if err != nil {
 		panic(err)
 	}
@@ -48,16 +76,20 @@ func (e *experiment) runExperiment() {
 
 	// Run all the repetitions of the experiment.
 	e.order = 1
-	for i := 1; i <= repetitions; i++ {
-		fmt.Printf("replicate %d of %d\n", i, repetitions)
+	for i := 1; i <= e.repetitions; i++ {
+		fmt.Printf("replicate %d of %d\n", i, e.repetitions)
 		e.runReplicate(i, resultF)
 	}
 }
 
 // runReplicate runs the set of the applications on a single input file.
 func (e *experiment) runReplicate(replicate int, resultF *os.File) {
-	e.createRandomFile()
+	if (!e.fixFile) || (replicate == 1) {
+		e.createRandomFile()
+	}
+
 	e.deleteSortedFile()
+
 	trmts := e.randomizeApplicationOrder()
 	for _, trmt := range trmts {
 
@@ -74,13 +106,14 @@ func (e *experiment) runReplicate(replicate int, resultF *os.File) {
 		resultF.WriteString(result)
 		e.order++
 	}
+
 	resultF.Sync()
 }
 
 // createRandomFile creates a new random file which can be used as input for a replication.
 func (e *experiment) createRandomFile() {
-	values := make([]string, fileLength)
-	for i := 0; i < fileLength; i++ {
+	values := make([]string, e.fileLength)
+	for i := 0; i < e.fileLength; i++ {
 		// Use 0 to 2^31 to work with all 32-bit base languages
 		values[i] = strconv.Itoa(int(rand.Int31()))
 	}
@@ -89,6 +122,8 @@ func (e *experiment) createRandomFile() {
 	if err := ioutil.WriteFile(randomFile, []byte(data), 0644); err != nil {
 		panic(err)
 	}
+
+	fmt.Printf("input file generated with %d random numbers\n", e.fileLength)
 }
 
 // randomizeApplicationOrder gets the randomized order of the applications and the paired order.
@@ -135,8 +170,8 @@ func (e *experiment) checkOutputFile(trmt *treatment) {
 		}
 		previousValue = value
 	}
-	if count != fileLength {
-		panic(fmt.Errorf("%s produced a file with only %d values instead of %d", trmt.String(), count, fileLength))
+	if count != e.fileLength {
+		panic(fmt.Errorf("%s produced a file with only %d values instead of %d", trmt.String(), count, e.fileLength))
 	}
 }
 

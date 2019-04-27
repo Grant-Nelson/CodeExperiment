@@ -29,4 +29,4 @@ thumbs.db
 # Experiment test files
 randomFile.txt
 sortedFile.txt
-results.txt
+results*.txt
