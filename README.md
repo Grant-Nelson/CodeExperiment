@@ -29,8 +29,8 @@ only been tested on Windows.
 
 ### Install Instructions
 
-- [C#](https://code.visualstudio.com/docs/cpp/config-mingw)
+- [C#](https://code.visualstudio.com/docs/languages/csharp#_installing-c35-support)
 - [C++](https://code.visualstudio.com/docs/languages/cpp)
 - [Go](https://golang.org/doc/install)
-- [Java](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Java](https://www.azul.com/products/zulu-and-zulu-enterprise/download-openjdk-11)
 - [Python](https://www.python.org/downloads/)
