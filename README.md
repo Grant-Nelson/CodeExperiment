@@ -17,8 +17,6 @@ as part of my PhD program.
 4. Run the experiment: `.\experiment.exe -run`
 5. Results are collected in `results.txt` by default
 6. Use `.\experiment.exe -h` to see more configurations
-7. The command I used for the given results was
-   `.\experiment.exe -run -repetitions 100 -fileLength 1000000 -fix`
 
 ## Installing the Languages
 

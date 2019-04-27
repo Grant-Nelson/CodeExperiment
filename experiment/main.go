@@ -50,7 +50,7 @@ func main() {
 	flag.IntVar(&repetitions, "repetitions", repetitions,
 		`The number of times to run the experiment.`)
 
-	fileLength := 100000
+	fileLength := 10000
 	flag.IntVar(&fileLength, "fileLength", fileLength,
 		`The number of values to put into the random number file.`)
 
