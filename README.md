@@ -1,6 +1,6 @@
 # Code Experiment
 
-:seedling: **This experiment is not ready yet! Come back later.**
+:seedling: **Analysing results, I will push them here when done, please come back later.**
 
 -------
 
@@ -15,7 +15,8 @@ as part of my PhD program.
 2. Build experiment executable: `go build .\experiment\`
 3. Build the treatments: `.\experiment.exe -build`
 4. Run the experiment: `.\experiment.exe -run`
-5. Results are collected in [`results.txt`](./results.txt).
+5. Results are collected in `results.txt` by default.
+6. Use `.\experiment.exe -h` to see more configurations.
 
 ## Installing the Languages
 
