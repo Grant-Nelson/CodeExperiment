@@ -29,6 +29,9 @@ type experiment struct {
 	// order is a monotonically increasing treatment order number.
 	order int
 
+	// startTime is the time the experiment started at.
+	startTime time.Time
+
 	// repetitions is the number of times to run the experiment.
 	repetitions int
 
@@ -47,6 +50,7 @@ type experiment struct {
 func newExperiment(repetitions, fileLength int, resultFile string, fixFile bool) *experiment {
 	return &experiment{
 		order:       1,
+		startTime:   time.Now(),
 		repetitions: repetitions,
 		fileLength:  fileLength,
 		resultFile:  resultFile,
@@ -72,20 +76,23 @@ func (e *experiment) runExperiment() {
 		panic(err)
 	}
 	defer resultF.Close()
-	resultF.WriteString("file length: " + strconv.Itoa(e.fileLength))
-	resultF.WriteString("fixed file:  " + strconv.FormatBool(e.fixFile))
+	resultF.WriteString("file length: " + strconv.Itoa(e.fileLength) + "\n")
+	resultF.WriteString("fixed file:  " + strconv.FormatBool(e.fixFile) + "\n")
 	resultF.WriteString("order replicate index language algorithm seconds\n")
 
 	// Run all the repetitions of the experiment.
 	e.order = 1
+	e.startTime = time.Now()
 	for i := 1; i <= e.repetitions; i++ {
-		fmt.Printf("replicate %d of %d\n", i, e.repetitions)
 		e.runReplicate(i, resultF)
 	}
 }
 
 // runReplicate runs the set of the applications on a single input file.
 func (e *experiment) runReplicate(replicate int, resultF *os.File) {
+	fmt.Printf("replicate %d of %d\n", replicate, e.repetitions)
+	repStartTime := time.Now()
+
 	if (!e.fixFile) || (replicate == 1) {
 		e.createRandomFile()
 	}
@@ -110,6 +117,9 @@ func (e *experiment) runReplicate(replicate int, resultF *os.File) {
 	}
 
 	resultF.Sync()
+	repDur := time.Since(repStartTime)
+	remaining := time.Duration(float64(e.repetitions-replicate) * float64(time.Since(e.startTime)) / float64(replicate))
+	fmt.Printf("  took " + repDur.String() + ", about " + remaining.String() + " remaining\n")
 }
 
 // createRandomFile creates a new random file which can be used as input for a replication.
@@ -125,7 +135,7 @@ func (e *experiment) createRandomFile() {
 		panic(err)
 	}
 
-	fmt.Printf("input file generated with %d random numbers\n", e.fileLength)
+	fmt.Printf("  input file generated with %d random numbers\n", e.fileLength)
 }
 
 // randomizeApplicationOrder gets the randomized order of the applications and the paired order.

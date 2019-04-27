@@ -11,12 +11,14 @@ as part of my PhD program.
 ## Running Experiment
 
 1. To change which treatments are built and run, modify
-   the experiments [`main.go`](./experiment/main.go) file.
+   the experiments [`main.go`](./experiment/main.go) file
 2. Build experiment executable: `go build .\experiment\`
 3. Build the treatments: `.\experiment.exe -build`
 4. Run the experiment: `.\experiment.exe -run`
-5. Results are collected in `results.txt` by default.
-6. Use `.\experiment.exe -h` to see more configurations.
+5. Results are collected in `results.txt` by default
+6. Use `.\experiment.exe -h` to see more configurations
+7. The command I used for the given results was
+   `.\experiment.exe -run -repetitions 100 -fileLength 1000000 -fix`
 
 ## Installing the Languages
 

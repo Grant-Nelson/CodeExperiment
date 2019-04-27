@@ -126,10 +126,12 @@ func (trmt *treatment) Run() float64 {
 	fmt.Printf("  running %s...", trmt.String())
 
 	start := time.Now()
-	if err := cmd.Run(); err != nil {
+	err := cmd.Run()
+	dur := time.Since(start)
+
+	if err != nil {
 		panic(fmt.Sprintf("%s failed to run: %v", trmt.String(), err))
 	}
-	dur := time.Since(start)
 
 	fmt.Printf("%s\n", dur.String())
 	return dur.Seconds()
